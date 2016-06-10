@@ -26,40 +26,7 @@ int compareAddress ( struct sockaddr_in *a1, struct sockaddr_in *a2) // useful f
    
 }
  
-// for now we will not use this function
-void sendQuitMessagetoAll (int listener, struct sockaddr_in cli_addr[], struct sockaddr_in *cli_source )
-{  
-  char niceArray [] = "One of the player has quit the game.";
- 
-   int clients = sizeof ( cli_addr );
-   int i;
- 
-    for ( i=0; i<clients; i++){
-       
-        int len = sizeof(niceArray);
-        int total = 0;        // how many bytes we've sent
-        int bytesleft = len; // how many we have left to send
-        int n;
- 
-        while(total < len) {
-            n =  sendto(listener, niceArray+total, bytesleft, 0, (struct sockaddr*)&cli_addr[i], sizeof (cli_addr[i]) );
-   
-                if (n == -1) { break; }
-           
-                total += n;
-                bytesleft -= n;
-        }
- 
-        len = total; // return number actually sent here
-       
-    }                      
-   
- 
-   
-}
- 
- 
- 
+
  
  
 int main(void)
@@ -237,9 +204,8 @@ if (bind(listener, (struct sockaddr *)&myaddr, sizeof(myaddr)) < 0) {
                                         if ( diff_t < 60 ) {
                                    
                                    
-                                         /* //lets disable quit message for a while until we add support in client side for reading  
-                                            sendQuitMessagetoAll ( listener, cli_addr, &cli_source );
-                                         */
+                                         // one client has disconnected. Up to you how you deal with it :)
+                                         // handle the message here if you want.
                                         }
                                        
                                        break; // it's important to break for loop now since we don't need to loop again wee
